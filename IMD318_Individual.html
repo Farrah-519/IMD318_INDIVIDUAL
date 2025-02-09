@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biography Website</title>
+    <style>
+        body {
+            font-family: Century Gothic , sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image:url('https://cdn.discordapp.com/attachments/531336858794197002/1338160767874371594/Untitled_design.png?ex=67aa12d4&is=67a8c154&hm=33185bf81fa614d5352478e8721279ba29a7e220e7202378622561bf4eb775e7&');
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            width: 100%;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center the navigation items */
+        }
+        nav ul li {
+            flex: 1;
+        }
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+        section {
+            padding: 20px;
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            flex: 1;
+            opacity: 0; /* Start invisible */
+            transform: translateY(50px); /* Start below the normal position */
+            animation: floatUp 0.8s ease-out forwards; /* Add float-up animation */
+        }
+        
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+    
+        section:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        section:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        section:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .carousel {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .carousel img {
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .carousel img.active {
+            transform: scale(1.1);
+            border: 3px solid #fff;
+        }
+
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .preview {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .preview:hover {
+            transform: scale(1.1);
+        }
+        .preview.selected {
+            border: 2px solid #005f73;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #59c3d8; 
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .profile-container img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            background-color: #005f73; 
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .profile-container p {
+            font-size: 18px;
+            color: #002f34; 
+        }
+        .basic-info-container {
+            background-color: #59c3d8; 
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .music-container {
+            background-color: #59c3d8; 
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .music-container img {
+            width: 200px;
+            height: 200px;
+            margin: 48px;
+            margin-bottom:0px;
+          
+
+        }
+        .music-container audio {
+            vertical-align: middle;
+        }
+        .card-container {
+            background-color: #59c3d8; 
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center; 
+            gap: 20px;
+        }
+        .card {
+            width: 30%;
+            height: 150px;
+            background-color: #005f73; 
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card-image {
+            width: 100%;
+            height: auto; 
+            object-fit: cover; 
+            border-radius: 8px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .card:hover .card-text {
+            opacity: 1;
+        }
+        .horizontal-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .horizontal-card {
+            display: flex;
+            align-items: center;
+            width: 80%; 
+            max-width: 500px; 
+            background-color: #005f73;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-decoration: none; /
+        }
+
+        .horizontal-card img {
+            width: 150px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .horizontal-card-text {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .horizontal-card:hover {
+            transform: scale(1.02);
+            background-color: #007a91; 
+        }
+
+        .music-title, .basic-info-title, h1 {
+            margin-top: 20px;
+            color: #002f34;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center; 
+        }
+
+     
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#general-info" onclick="showSection('general-info')">General Info</a></li>
+                <li><a href="#educational-background" onclick="showSection('educational-background')">Educational Background</a></li>
+                <li><a href="#gallery" onclick="showSection('gallery')">Gallery</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="general-info">
+            <div class="profile-container">
+                <div class="profile-picture">
+                    <img src="https://cdn.discordapp.com/attachments/531336858794197002/1329285908628897925/image.png?ex=6789c979&is=678877f9&hm=d5fed31a2d59693b58245ccdc77c02c6eb8934f1d48e1fa787bc9dc5472b37c7&" alt="Picture here" style="content: 'Picture here';">
+                </div>
+                <h3> Hi, I'm Ayman Fadlan</h3>
+                <p>Aspiring story writer and avid gamer that likes playing video games and<br>
+                anything anime related, for that matter </p>
+            </div>
+            <h2 class="basic-info-title">A little bit about me</h2>
+            <div class="basic-info-container">
+                <p>Name: Ayman Fadlan bin Ahmad Faizal<br>
+                DoB: 12 April 2002<br>
+                Birthplace: Selangor<br>
+                Likes: Watching Anime, Writing Stories, Playing video games<br>
+             </p>
+            </div>
+            <h2 class="music-title">Favorite Media</h2>
+            <div class="music-container">
+                <div>
+                    <img src="https://static.wikia.nocookie.net/vocaloid/images/3/35/Magical_Mirai_2017_album.jpg/revision/latest?cb=20170804203817" alt="miku daiyo"> 
+                    <img src="https://cdn-images.dzcdn.net/images/cover/fbaf1beaa37db02f0047978903c517b7/0x1900-000000-80-0-0.jpg" alt="jenshin"> <br>
+                    <audio controls>
+                        <source src="VOCALOID2_ Hatsune Miku - _Tell Your World_ [HD & MP3] 4.ogg" type="audio/ogg">
+                        <source src="VOCALOID2_ Hatsune Miku - _Tell Your World_ [HD & MP3] 4.mp3" type="audio/mpeg">
+                    </audio>
+                    <audio controls>
+                        <source src="Hustle and Bustle of Ormos 4.ogg" type="audio/ogg">
+                        <source src="Hustle and Bustle of Ormos 4.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section id="educational-background" class="hidden">
+            <h1>Educational Background</h1>
+            <div class="horizontal-card-container">
+                <a href="https://www.facebook.com/p/SMK-Puchong-Permai-100040894033240/?locale=ms_MY" class="horizontal-card" target="_blank">
+                    <img src="https://fastly.4sqi.net/img/general/600x600/7303610_jZwmQH50HK96kRf-3EpmYFkPriHcdEKupWNQSF0Ho38.jpg" alt="Education Image 1">
+                    <div class="horizontal-card-text">SMK Puchong Permai</div>
+                </a>
+                <a href="https://www.facebook.com/smksubangbestarishahalam/?locale=ms_MY" class="horizontal-card" target="_blank">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5ZrgNWV_QET75ibIMSpM7s5aD35gFCIRenw&s" alt="Education Image 2">
+                    <div class="horizontal-card-text">SMK Subang Bestari</div>
+                </a>
+                <a href="https://ipoh.kptm.edu.my/index.php/ms/" class="horizontal-card" target="_blank">
+                    <img src="https://i.ytimg.com/vi/mbLEyCO2qIg/maxresdefault.jpg" alt="Education Image 3">
+                    <div class="horizontal-card-text">KPTM MARA Ipoh (Diploma in Animation)</div>
+                </a>
+            </div>
+        </section>
+
+        <section id="gallery" class="hidden">
+            <h1>Gallery</h1>
+            <div class="gallery-container">
+              
+                <div class="preview-container">
+                    <img src="https://media.discordapp.net/attachments/490859202454224899/1329071248692482088/IMG20241221164214.jpg?ex=6789aa4e&is=678858ce&hm=c14a68c8b744ec061d6f85e1fd5ec0a06f0dfc3a5db002c24e60a5ee09d044a8&=&format=webp&width=419&height=559" class="preview" alt="Image 1" onclick="changeImage('image1.jpg', this)">
+                    <img src="https://media.discordapp.net/attachments/490859202454224899/1329071249204183172/IMG20241102231554.jpg?ex=6789aa4e&is=678858ce&hm=673a541a82d8050b43b598d2e3d3553755f9980acd104042a1f4127d5dedc314&=&format=webp&width=497&height=663" class="preview" alt="Image 2" onclick="changeImage('image2.jpg', this)">
+                    <img src="https://media.discordapp.net/attachments/490859202454224899/1329071249661624402/IMG20241221180435.jpg?ex=6789aa4e&is=678858ce&hm=95fab606e6be439d7730958f3ba5c6f54a86bcb7f8ac73016358f4566c181f92&=&format=webp&width=497&height=663" class="preview" alt="Image 3" onclick="changeImage('image3.jpg', this)">
+                    <img src="https://media.discordapp.net/attachments/490859202454224899/1329067975080411197/IMG20241012154024.jpg?ex=6789a742&is=678855c2&hm=b38073ae1129953cdff1058e36679f977a731f4e202666d4db87ed0bf2553cb6&=&format=webp&width=499&height=663" class="preview" alt="Image 4" onclick="changeImage('image4.jpg', this)">
+                </div>
+
+                
+                <div class="carousel">
+                    <img id="mainImage" src="https://media.discordapp.net/attachments/414695932467085313/1320763482614005781/peak-blue-archive-gathering-comic-fiesta-2024-v0-819lwlriuk8e1.webp?ex=67891ad8&is=6787c958&hm=0be5dec85634727b8a1537e5cee8d32291a44d2605e866559e65587ed5a86cbd&=&format=webp&width=497&height=663 " alt="Main Image">
+                </div>
+
+                
+                <div class="preview-container">
+                    <img src="https://media.discordapp.net/attachments/414695932467085313/1320661054191304777/IMG20241221170742.jpg?ex=67896434&is=678812b4&hm=5f267dece8a350e3b62a03796548619223e09443ade34b5cb4138a38e5bc9d02&=&format=webp&width=497&height=663" class="preview" alt="Image 5" onclick="changeImage('image5.jpg', this)">
+                    <img src="https://media.discordapp.net/attachments/414695932467085313/1320763482614005781/peak-blue-archive-gathering-comic-fiesta-2024-v0-819lwlriuk8e1.webp?ex=67891ad8&is=6787c958&hm=0be5dec85634727b8a1537e5cee8d32291a44d2605e866559e65587ed5a86cbd&=&format=webp&width=497&height=663" class="preview" alt="Image 6" onclick="changeImage('image6.jpg', this)">
+                    <img src="https://cdn.discordapp.com/attachments/414695932467085313/1320764596008521778/image.png?ex=67891be2&is=6787ca62&hm=40573dbbe138eb9894f9da96c22a7edb850aeb6cd108811165b2f2578cfa71a1&" class="preview" alt="Image 7" onclick="changeImage('image7.jpg', this)">
+                    <img src="https://cdn.discordapp.com/attachments/414695932467085313/1320661055965368331/IMG20241221190452.jpg?ex=67896434&is=678812b4&hm=b7e8b23c2eb517537a94e4d1f509271ced32531f106ba9b512a0772eb59576eb&" class="preview" alt="Image 8" onclick="changeImage('image8.jpg', this)">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer> <center>
+        <p> All rights reserved <br> This website is created to fulfill the requirements for Individual Assignment in subject IMD318</p>
+            </center>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        }
+
+       
+        function changeImage(previewSrc, previewElement) {
+            const mainImage = document.getElementById('mainImage');
+    
+    
+        mainImage.src = previewElement.src;
+
+   
+         const previews = document.querySelectorAll('.preview');
+            previews.forEach(preview => preview.classList.remove('selected'));
+
+    
+        previewElement.classList.add('selected');
+}
+
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstPreview = document.querySelector('.preview');
+            if (firstPreview) {
+                firstPreview.classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>
